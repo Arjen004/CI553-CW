@@ -42,9 +42,9 @@ public class CashierController
   /**
    * Buy interaction from view
    */
-  public void doRemove()
+  public void doClear()
   {
-    model.doRemove();
+    model.doClear();
   }
 
    /**

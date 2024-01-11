@@ -134,10 +134,17 @@ public class CashierModel extends Observable
   /**
    *  Customer removed item from basket
    */
-  public void doRemove()
-  {
 
+
+  public void doClear() {
+      String theAction = "";
+      theBasket.clear();
+      theAction = "Basket is empty";
+      setChanged(); notifyObservers(theAction);
   }
+
+
+
 
   /**
    * Customer pays for the contents of the basket
