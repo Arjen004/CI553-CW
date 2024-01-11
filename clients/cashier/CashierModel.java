@@ -130,7 +130,15 @@ public class CashierModel extends Observable
     theState = State.process;                   // All Done
     setChanged(); notifyObservers(theAction);
   }
-  
+
+  /**
+   *  Customer removed item from basket
+   */
+  public void doRemove()
+  {
+
+  }
+
   /**
    * Customer pays for the contents of the basket
    */
