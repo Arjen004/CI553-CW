@@ -65,33 +65,31 @@ public class Basket extends ArrayList<Product> implements Serializable
    * Returns a description of the products in the basket suitable for printing.
    * @return a string description of the basket products
    */
-  public String getDetails()
-  {
+  public String getDetails() {
     Locale uk = Locale.UK;
     StringBuilder sb = new StringBuilder(256);
-    Formatter     fr = new Formatter(sb, uk);
-    String csign = (Currency.getInstance( uk )).getSymbol();
+    Formatter fr = new Formatter(sb, uk);
+    String csign = (Currency.getInstance(uk)).getSymbol();
     double total = 0.00;
-    if ( theOrderNum != 0 )
-      fr.format( "Order number: %03d\n", theOrderNum );
-      
-    if ( this.size() > 0 )
-    {
-      for ( Product pr: this )
-      {
+    if (theOrderNum != 0)
+      fr.format("Order number: %03d\n", theOrderNum);
+
+    if (this.size() > 0) {
+      for (Product pr : this) {
         int number = pr.getQuantity();
-        fr.format("%-7s",       pr.getProductNum() );
-        fr.format("%-14.14s ",  pr.getDescription() );
-        fr.format("(%3d) ",     number );
-        fr.format("%s%7.2f",    csign, pr.getPrice() * number );
+        fr.format("%-7s", pr.getProductNum());
+        fr.format("%-14.14s ", pr.getDescription());
+        fr.format("(%3d) ", number);
+        fr.format("%s%7.2f", csign, pr.getPrice() * number);
         fr.format("\n");
         total += pr.getPrice() * number;
       }
       fr.format("----------------------------\n");
       fr.format("Total                       ");
-      fr.format("%s%7.2f\n",    csign, total );
+      fr.format("%s%7.2f\n", csign, total);
       fr.close();
     }
     return sb.toString();
   }
+
 }

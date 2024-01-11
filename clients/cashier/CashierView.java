@@ -7,6 +7,7 @@ import middle.StockReadWriter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,12 +18,13 @@ import java.util.Observer;
  */
 public class CashierView implements Observer
 {
-  private static final int H = 300;       // Height of window pixels
+  private static final int H = 350;       // Height of window pixels
   private static final int W = 400;       // Width  of window pixels
   
   private static final String CHECK  = "Check";
   private static final String BUY    = "Buy";
   private static final String CLEAR = "Clear";
+  private static final String REMOVEID = "Remove";
   private static final String BOUGHT = "Bought";
 
   private final JLabel      theAction  = new JLabel();
@@ -32,6 +34,7 @@ public class CashierView implements Observer
   private final JButton     theBtCheck = new JButton( CHECK );
   private final JButton     theBtBuy   = new JButton( BUY );
   private final JButton     theBtClear   = new JButton( CLEAR );
+  private final JButton     theBtRemoveID = new JButton( REMOVEID );
   private final JButton     theBtBought= new JButton( BOUGHT );
 
   private StockReadWriter theStock     = null;
@@ -64,25 +67,30 @@ public class CashierView implements Observer
 
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
-    theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button
+    theBtCheck.setBounds( 16, 25+60*0, 85, 40 );    // Check Button
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText() ) );
     cp.add( theBtCheck );                           //  Add to canvas
 
-    theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
+    theBtBuy.setBounds( 16, 25+60*1, 85, 40 );      // Buy button
     theBtBuy.addActionListener(                     // Call back code
       e -> cont.doBuy() );
     cp.add( theBtBuy );                             //  Add to canvas
 
-    theBtClear.setBounds( 16, 25+60*2, 80, 40 );      // Remove button
+    theBtClear.setBounds( 16, 25+60*2, 85, 40 );      // Clear button
     theBtClear.addActionListener(                     // Call back code
       e -> cont.doClear() );
     cp.add( theBtClear );                             //  Add to canvas
 
-    theBtBought.setBounds( 16, 25+60*3, 80, 40 );   // Clear Button
+    theBtBought.setBounds( 16, 25+60*3, 85, 40 );   // Bought Button
     theBtBought.addActionListener(                  // Call back code
       e -> cont.doBought() );
     cp.add( theBtBought );                          //  Add to canvas
+
+    theBtRemoveID.setBounds( 16, 25+60*4, 85, 40 );      // Remove button
+    theBtRemoveID.addActionListener(                     // Call back code
+            e -> cont.doRemoveID(theInput.getText()) );
+    cp.add( theBtRemoveID );                             //  Add to canvas
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
     theAction.setText( "" );                        // Blank

@@ -40,13 +40,17 @@ public class CashierController
   }
 
   /**
-   * Buy interaction from view
+   * Clear interaction from view
    */
-  public void doClear()
-  {
-    model.doClear();
-  }
+  public void doClear() {model.doClear();}
 
+  /**
+   * Clear remove ID from view
+   */
+  public void doRemoveID(String productNum)
+  {
+    model.doRemoveID(productNum);
+  }
    /**
    * Bought interaction from view
    */

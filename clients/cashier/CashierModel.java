@@ -22,6 +22,7 @@ public class CashierModel extends Observable
 
   private String      pn = "";                      // Product being processed
 
+
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
 
@@ -132,19 +133,69 @@ public class CashierModel extends Observable
   }
 
   /**
-   *  Customer removed item from basket
+   *  Customer clears entire order from basket
    */
-
-
   public void doClear() {
       String theAction = "";
-      theBasket.clear();
-      theAction = "Basket is empty";
+    try {
+      if (theBasket != null) {
+        // Returns all products back to the stock
+        for (Product product : theBasket) {
+          theStock.addStock(product.getProductNum(), product.getQuantity());
+        }
+        theBasket.clear();
+        theAction = "Returned all products to stock";
+      } else {
+        theAction = "Basket is empty";
+      }
+    } catch (StockException e) {
+      DEBUG.error("%s\n%s",
+              "CashierModel.doClear", e.getMessage());
+      theAction = e.getMessage();
+    }
       setChanged(); notifyObservers(theAction);
   }
 
 
+  /**
+   * Customer removes specified id from basket
+   */
+  public void doRemoveID(String productNum) {
+    String theAction = "";
 
+    if (theBasket != null && !theBasket.isEmpty()) {
+      Product removeProductID = null;
+
+      // Search for the product to remove
+      for (Product product : theBasket) {
+        if (product.getProductNum().equals(productNum)) {
+          removeProductID = product;
+        }
+      }
+
+      if (removeProductID != null) {
+        // Remove product from basket
+        theBasket.remove(removeProductID);
+
+        // Return product to stock
+        try {
+          theStock.addStock(removeProductID.getProductNum(), removeProductID.getQuantity());
+          theAction = "Removed " + productNum + " from basket and returned it to stock.";
+        } catch (StockException e) {
+          DEBUG.error("%s\n%s",
+                  "CashierModel.doRemoveID", e.getMessage());
+          theAction = e.getMessage();
+        }
+      } else {
+        theAction = productNum + " not found in the basket";
+      }
+    } else {
+      theAction = "Basket is empty";
+    }
+
+    setChanged();
+    notifyObservers(theAction);
+  }
 
   /**
    * Customer pays for the contents of the basket
